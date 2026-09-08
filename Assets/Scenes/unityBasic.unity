@@ -1900,6 +1900,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 8263747742644696013, guid: f29ed65fc5899c54cbadcb7d5b9eef17, type: 3}
   camTransform: {fileID: 0}
+  shotDelay: 0.5
 --- !u!1 &1432398755
 GameObject:
   m_ObjectHideFlags: 0

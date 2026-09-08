@@ -1,38 +1,34 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerShooter : MonoBehaviour
+public class PointerShooter : MonoBehaviour
 {
-    public BulletMover prefab;
-    public Transform camTransform;
-
-    public float shotDelay = 0.5f;
-
-    private bool pullTrigger = false;
+    public GameObject prefab;
+    public bool isPressed;
+    public float rapidFireRate = 0.5f;
     private float fireTime;
+
     public void OnAttack(InputValue value)
     {
-        pullTrigger = value.isPressed;
-
+        isPressed = value.isPressed;
     }
 
-    private void Update()
+    void Update()
     {
-        //Time.time 재생 누른 이후로 지나간 시간을 기록함.
-        //공격 버튼을 누르고 있으면서, 발사시간이 현재시간보다 작아지면 발사.
-        if (pullTrigger && fireTime < Time.time)
-        {
-            Instantiate<BulletMover>(prefab, camTransform.position, camTransform.rotation);
-            fireTime = Time.time + shotDelay;
-        }
+        //마우스가 눌러져 있지 않으면 리턴.
+        if (isPressed == false)
+            return;
+
+        //발사가능 시간이 아니면 리턴
+        if (fireTime > Time.time)
+            return;
+
+        //마우스 포인터의 위치값 읽어오기.
+        //Mouse.current.position.ReadValue();
+        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        Instantiate<GameObject>(prefab, ray.origin, Quaternion.LookRotation(ray.direction));
+
+        //다음 발사 시간 갱신
+        fireTime = Time.time + rapidFireRate;
     }
-
-    private void Start()
-    {
-        if (camTransform == null)
-            camTransform = transform.Find("Camera");
-    }
-
-
-
 }
