@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class Ch17Controller : MonoBehaviour
 {
-    public Transform camTransForm;
+    public Transform camTransform;
     public Animator anim;
     public Vector2 direction;
     public bool isRunning;
@@ -31,8 +31,29 @@ public class Ch17Controller : MonoBehaviour
             anim = GetComponent<Animator>();
         }
     }
-
     private void LateUpdate()
+    {
+        if (follower != null)
+            follower.Rotate(lookDelta);
+
+
+        if (direction.magnitude > 0.1)
+        {
+            Vector3 forward = camTransform.forward;
+            forward.y = 0f;
+            forward = forward.normalized;
+            Vector3 right = camTransform.right;
+            right.y = 0f;
+            right = right.normalized;
+
+            Vector3 dir = forward * direction.y + right * direction.x;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(dir), rotateSpeed * Time.deltaTime);
+        }
+
+        anim.SetBool("IsRun", isRunning);
+        anim.SetFloat("Speed", direction.magnitude);
+    }
+    /*private void LateUpdate()
     {
         if(direction.magnitude > 0.1)
         {
@@ -51,5 +72,5 @@ public class Ch17Controller : MonoBehaviour
         }
         anim.SetBool("IsRun", isRunning);
         anim.SetFloat("Speed", direction.magnitude);
-    }
+    }*/
 }

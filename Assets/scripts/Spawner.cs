@@ -3,14 +3,15 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     public GameObject prefab;
-    public Transform[] spawnPosition;
-    
+    public Transform[] spawnPositions;
+
     public void SpawnForward()
     {
-        Instantiate<GameObject>(prefab, spawnPosition[0].position, spawnPosition[0].rotation);
+        Instantiate<GameObject>(prefab, spawnPositions[0].position, spawnPositions[0].rotation);
     }
-    public void SpawnBackward()
+    public void SapwnBackward()
     {
-        Instantiate<GameObject>(prefab, spawnPosition[1].position, spawnPosition[1].rotation);
+        Instantiate<GameObject>(prefab, spawnPositions[1].position, spawnPositions[1].rotation);
     }
+
 }

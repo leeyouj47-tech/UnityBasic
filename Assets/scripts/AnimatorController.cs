@@ -11,6 +11,7 @@ public class AnimatorController : MonoBehaviour
         gearSpeed = Mathf.Clamp(gearSpeed += 0.1f, 0f, 5f);
         gearAnim.SetFloat("Speed", gearSpeed * gearDirection);
     }
+
     public void OnGearDown()
     {
         gearSpeed = Mathf.Clamp(gearSpeed -= 0.1f, 0f, 5f);
@@ -21,6 +22,7 @@ public class AnimatorController : MonoBehaviour
         gearDirection *= -1f;
         gearAnim.SetFloat("Speed", gearSpeed * gearDirection);
     }
+
     public void OnNext()
     {
         basicAnim.SetTrigger("Next");
