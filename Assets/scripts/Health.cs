@@ -4,12 +4,13 @@ using UnityEngine.UI;
 public class Health : MonoBehaviour
 {
     public int maxHealth = 1;
+    public Text remainHpText;
     private int currentHp;
     public GameObject destroyEffect;
     public Transform effectTransform;
     public Slider healthbar;
     public Transform camera;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
     void Start()
     {
         currentHp = maxHealth;
@@ -20,6 +21,10 @@ public class Health : MonoBehaviour
             healthbar.maxValue = maxHealth;
             healthbar.value = maxHealth;
         }
+        if(remainHpText != null)
+        {
+            remainHpText.text = $"{currentHp}/{maxHealth}";
+        }
     }
     public void TakeDamage(int damage)
     {
@@ -27,6 +32,10 @@ public class Health : MonoBehaviour
         if(healthbar != null)
         {
             healthbar.value = currentHp;
+        }
+        if (remainHpText != null)
+        {
+            remainHpText.text = $"{currentHp}/{maxHealth}";
         }
         Debug.Log($"TakeDmg => {gameObject.name}({currentHp})");
         if(currentHp == 0)

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,6 +16,29 @@ public class PlayerMover : MonoBehaviour
     public Transform camTransform;
 
     public Rigidbody rb;
+
+    public float jumpHeight = 1f;   //점프 최대높이
+    public bool isGrounded = false;  //땅 위에 있는지 여부
+    public int maxJumpCount = 1;    //최대 연속 점프 횟수
+    private int remainJumpCnt;  //점프 카운트
+    public float groundRadius = 0.3f;
+    public float groundOffset = 0f;
+    public LayerMask groundMask;
+
+    public bool IsGround
+    {
+        get => isGrounded;
+        set
+        {
+            if(isGrounded == value) 
+                return;
+
+            if(isGrounded = value)
+            {
+                remainJumpCnt = maxJumpCount;
+            }
+        }
+    }
 
     private void Start()
     {
@@ -58,6 +82,8 @@ public class PlayerMover : MonoBehaviour
 
     private void FixedUpdate()
     {
+        IsGround = GroundCheck();
+
         Vector3 forward = camTransform.forward;
         forward.y = 0f;
         forward = forward.normalized;
@@ -67,6 +93,14 @@ public class PlayerMover : MonoBehaviour
 
         Vector3 dir = forward * direction.y + right * direction.x;
         rb.MovePosition(dir * moveSpeed * Time.fixedDeltaTime + rb.position);
+    }
+
+    private bool GroundCheck()
+    {
+        Vector3 gPos = transform.position;
+        gPos.y += groundOffset;
+
+        return Physics.CheckSphere(gPos, groundRadius, groundMask);
     }
 
     public void OnLook(InputValue value)
@@ -79,16 +113,21 @@ public class PlayerMover : MonoBehaviour
         direction = value.Get<Vector2>();
     }
 
-    public void OnSpace()
+    public void OnJump()
     {
-        Debug.Log("너 스페이스 눌렀지?");
+        if(remainJumpCnt == 0)
+            return;
+        remainJumpCnt--;
+        //sqrt = 루트
+        //원하는 높이까지의 위치에너지를 운동에너지로 변환하는 공식을 이용해 위로 튀어오르게 함.
+        rb.AddForce(Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y) * Vector3.up, ForceMode.VelocityChange);
     }
 
     //게임 오브젝트가 활성화 할때마다 매번 호출
-/*    private void OnEnable()
-    {
-        
-    }*/
+    /*    private void OnEnable()
+        {
+
+        }*/
     //게임오브젝트가 비활성화 할때마다 매번 호출
     /*private void OnDisable()
     {
@@ -96,8 +135,20 @@ public class PlayerMover : MonoBehaviour
     }*/
 
     //게임 오브젝트가 파괴될때 호출
-   /* private void OnDestroy()
+    /* private void OnDestroy()
+     {
+         camTransform.SetParent(null);
+     }*/
+    //게임 오브젝트가 선택되어 있을때만 그려지는 기즈모
+    private void OnDrawGizmosSelected()
     {
-        camTransform.SetParent(null);
-    }*/
+        Color green = new Color(0, 1, 0, 0.35f);
+        Color red = new Color(1, 0, 0, 0.35f);
+        if(isGrounded)
+            Gizmos.color = green;
+        else
+            Gizmos.color = red;
+
+        Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y + groundOffset, transform.position.z), groundRadius);
+    }
 }

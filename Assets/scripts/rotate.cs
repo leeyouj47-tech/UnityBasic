@@ -28,11 +28,11 @@ public class rotate : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        needRotate = true;
+        //needRotate = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        needRotate = false;
+        //needRotate = false;
     }
 }

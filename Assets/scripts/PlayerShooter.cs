@@ -37,7 +37,7 @@ public class PlayerShooter : MonoBehaviour
         pullTrigger = value.isPressed;
     }
 
-    public void OnSpace()
+    public void OnRapidFire()
     {
         Debug.Log("스페이스 눌렸니?");
         RapidFire = !RapidFire;

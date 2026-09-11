@@ -60,7 +60,7 @@
                     "name": "Jump",
                     "type": "Button",
                     "id": "f1ba0d36-48eb-4cd5-b651-1c94a6531f70",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false,
@@ -97,7 +97,7 @@
                     "priority": 0
                 },
                 {
-                    "name": "Space",
+                    "name": "RapidFire",
                     "type": "Button",
                     "id": "9abeecc3-b737-40c4-b75d-f7553ec1102f",
                     "expectedControlType": "",
@@ -537,11 +537,11 @@
                 {
                     "name": "",
                     "id": "4717b00d-7f84-42a7-8891-84f03b5d15b1",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/leftAlt",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Space",
+                    "action": "RapidFire",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
